@@ -1,0 +1,15 @@
+<form name='bookingbug_link' method='post' target='_new' action="http://<%= BBUG_URL %>/signup">
+	<input type='hidden' name='affiliate_id' value="<%=affid%>" />
+	<input type='hidden' name='ref_id' value="<%=refid%>" />
+	<input type='hidden' name='email' value="<%=email%>" />
+	<input type='hidden' name='name' value="<%=name%>" />
+	<input type='hidden' name='country' value="<%=country%>" />
+	<input type='hidden' name='address1' value="<%=address1%>" />
+	<input type='hidden' name='address2' value="<%=address2%>" />
+	<input type='hidden' name='address3' value="<%=address3%>" />
+	<input type='hidden' name='address4' value="<%=address4%>" />
+	<input type='hidden' name='postcode' value="<%=postcode%>" />
+	<input type='hidden' name='homephone' value="<%=homephone%>" />
+	<input type='hidden' name='mobilephone' value="<%=mobilephone%>" />
+	<a href='#' onclick='document.bookingbug_link.submit();'><%=bbug_link_txt.blank? ? "<img src='http://www.bookingbug.com/images/bbug-signup.jpg' />" : bbug_link_txt%></a>
+</form>
