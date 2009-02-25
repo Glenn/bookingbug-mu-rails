@@ -5,6 +5,8 @@ namespace :bookingbug do
     puts 'Setup BookingBug in your rails application'
     Rake::Task['bookingbug:bbug_migration'].invoke
     Rake::Task['bookingbug:copy_partials'].invoke
+    Rake::Task['bookingbug:copy_bookingbug_config_file'].invoke
+    Rake::Task['bookingbug:copy_resize_file'].invoke
   end
   
   desc 'Generate a migration for the Bookingbug table.'
@@ -34,6 +36,24 @@ namespace :bookingbug do
     )
     
     puts "================================DONE==========================================="
+  end
+  
+  task :copy_bookingbug_config_file do
+    puts "Copying BookingBug YML file."
+    config_file = 'bookingbug.yml'
+    FileUtils.cp_r(
+      File.join(File.dirname(__FILE__), "../bookingbug.yml"),
+      File.join(RAILS_ROOT, "config/", config_file)
+    )
+  end
+  
+  task :copy_resize_file do
+    puts "Copying Resize.html to public folder."
+    resize_file = 'resize.html'
+    FileUtils.cp_r(
+      File.join(File.dirname(__FILE__), "../resize.html"),
+      File.join(RAILS_ROOT, "public/", resize_file)
+    )
   end
   
 end

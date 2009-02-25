@@ -1,13 +1,114 @@
-BookingbugMu
+Bookingbug
 ============
+  Version: edge
+  Author:  Bookingbug team
+  Plugin Homepage: <path goes here>
+  
+    
+  Introduction:
+  -------------
+  
+  BookingBug is the simplest and a robust plugin to link your users with BookingBug.
+  Its implementation requires simple steps which include running rake task and setting a route.
+  Bookingbug is available to be used with Rails2.0 or above and also it provides the 
+  backward compatibility with previous versions of Rails.
 
-Introduction goes here.
+  Copyright (c) 2009 [BookingBug]
 
 
-Example
-=======
+Installation
+=========================================================================================
+  Bookingbug plugin can be installed by running this command from the application root
+  
+  >> ruby script/plugin install <path goes here>
 
-Example goes here.
+Setup
+=========================================================================================
+  After installation, follow these simple steps to setup the plugin.
+
+  STEP 1
+  ------
+    1) Run rake task "rake boookingbug:setup"
+		This will copy the required bookingbug partials, bookingbug.yml in your config folder and resize.html file in public folder.
+		Please replace your Affiliate ID and Affiliate API Key with your own in config/bookingbug.yml
+	
+	  i) bookingbug_affid (Your Bookingbug affiliate id.)
+     ii) bookingbug_apikey (Your Bookingbug affiliate api key.)
+    iii) style (Possible options are: small, basic, medium, large)
+  	 iv) scheme	(Possible options are: 1, 2, 3, 4)
+  	  v) background_color (6 characters color code)
+	
+	
+	2) Copy the following line to your route.rb
+		map.connect '/bookingbug/:action', :controller => 'bbug'
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+  STEP 2
+  ------
+    1) Login to your Bookingbug affilaite account
+    2) Set Link URL as www.yoursite.com/bookingbug/link
+    3) Set Cancel URL as www.yoursite.com/bookingbug/cancel
+    4) Set Dynamic Height URL as www.yoursite.com/resize.html
+    
+
+  STEP 3
+  ------
+    Use <%= link_to_bookingbug :id => 1 %> in your view to render bookingbug signup or signin link.
+    Bookingbug plugin automatically detect user link with BookingBug and renders the appropriate link.
+    
+    You can optionally pass parameters like:
+       i) signin (Replaces the Bookingbug signin button with this text.)
+	  ii) signup (Replaces the Bookingbug signup button with this text.)
+	 iii) email (Email of the user.)
+	  iv) name (username and fullname of the user.)
+	   v) country (Country of the user.)
+	  vi) address1 (Address 1 of the user.)
+	 vii) address2 (Address 2 of the user.)
+	viii) address3 (Address 3 of the user (town/city).)
+	  ix) address4 (Address 4 of the user (county/state).)
+	   x) postcode (Zip/Postcode of the user.)
+	  xi) homephone (Home phone of the user.)
+	 xii) mobilephone (Mobile phone of the user.)
+	
+	An example with complete paramters might looks like that:
+	
+	<%= link_to_bookingbug :id => 1,
+		:signup			=> "Sign up to BookingBug",
+		:signin			=> "Log in to your BookingBug account",
+		:email			=> "example@abc.com",
+		:name 			=> "John Smith",
+		:address1		=> "Calleva Park", 
+		:address2		=> "United Kingdom",
+		:address3		=> "London",
+		:address4		=> "",
+		:postcode		=> "12345",
+		:homephone		=> "+92 123 1234567",
+		:mobilephone	=> "+92 123 1234567",
+		:country		=> "United Kingdom" %>
+
+User Existence Test
+===================
+
+	<%is_bookingbug_user?(id_of_user)%>
+	Return boolean value
+
+
+Render Widget
+=============
+
+	<%= render_bbug_widget(:id => id_of_user)%>
+	You can optionally pass parameters like:
+    1) style (Possible options are: small, basic, medium, large)
+  	2) scheme (Possible options are: 1, 2, 3, 4)
+  	3) background_color (6 characters color code)
+
+
+Cancel Link
+===========
+
+	You have to call bookingbug_cancel_callback(:id => id_of_user)
+
+
+	Any feedback/comment/issue is welcome!
+
+===========================================================================================
