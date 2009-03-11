@@ -1,14 +1,15 @@
-BBUG_URL = "localhost:3000"
 BOOKINGBUG_ROOT = Pathname.new(RAILS_ROOT).realpath.to_s
 
 unless defined?(BBUG_CONFIG)
-  BBUG_CONFIG = BbugWidget::Config.read_config("#{BOOKINGBUG_ROOT}/config/bookingbug.yml")
+  BBUG_CONFIG = BbugWidget::Config.read_config("#{BOOKINGBUG_ROOT}/config/bookingbug.yml") # Read bookingbug.yml file
+  BBUG_URL = BbugWidget::Config.set_bbug_path # Set the link where API calls will be send.
 end
 
 module Bookingbug
   
   attr_accessor :bbug_host
   
+  # Render signup/signin link
   def link_to_bookingbug(options = {})
     Bookingbug.set_bbug_host(request.host_with_port)
     if !BBUG_CONFIG.blank? && !BBUG_CONFIG[:bookingbug].blank? && !BBUG_CONFIG[:bookingbug][:bookingbug_affid].blank?
@@ -34,23 +35,23 @@ module Bookingbug
     end
   end
   
+  # Cancels the Affiliate link with user's company
   def bookingbug_cancel_callback(options = {})
-    Bookingbug.set_bbug_host(request.host_with_port)
     if !BBUG_CONFIG.blank? && !BBUG_CONFIG[:bookingbug].blank? && !BBUG_CONFIG[:bookingbug][:bookingbug_apikey].blank? && !options[:id].blank?
       bbug_user = BbugCompany.find(:first, :conditions => ["affiliate_user_id = ?", options[:id]])
       return "Failed to communicate with BookingBug - User with this id does not exist" if bbug_user.blank?
       begin
-        url = URI.parse("http://" + "#{BBUG_URL}" + "/affiliate/api/cancel") # http://www.bookingbug.com/affiliate/api/cancel?affiliate_key='.$key.'&bb_id='.$id)
+        url = URI.parse("http://" + "#{BBUG_URL}" + "/affiliate/api/cancel")
         req = Net::HTTP::Post.new(url.path + "?" + url.query.to_s)
         req.set_form_data({:affiliate_key => BBUG_CONFIG[:bookingbug][:bookingbug_apikey], :bb_id => bbug_user.bbug_company_id})
-        res = Net::HTTP.new(url.host, url.port).start {|http|
+         res = Net::HTTP.new(url.host, url.port).start {|http|
            http.request(req)
         }
-        # warn if not successfull - but there's really nothing else we can do about it!
+
         if res.class != Net::HTTPSuccess && res.class != Net::HTTPOK
           return "Failed to communicate with BookingBug - Please try again later"
         else
-          return "success"
+          res.body[/"status":( )*[0-9]/].split(":").last.to_i == 1 ? (return "Success") : (return "Failed to cancel link - Either no such link exist or this link has already been cancelled.")
         end
       rescue
         return "Failed to communicate with BookingBug - Please try again later"
@@ -60,6 +61,7 @@ module Bookingbug
     end
   end
   
+  # Set affiilate host address
   def set_bbug_host(host_address)
     Bookingbug::bbug_host = host_address
   end
@@ -69,6 +71,7 @@ module Bookingbug
     bbug_user.blank? ? false : true
   end
   
+  # Render's bookingbug widget
   def render_bbug_widget(values = {})
     Bookingbug.set_bbug_host(request.host_with_port)
     BbugWidget::Widget.render(values)

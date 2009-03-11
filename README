@@ -34,9 +34,10 @@ Setup
 	
 	  i) bookingbug_affid (Your Bookingbug affiliate id.)
      ii) bookingbug_apikey (Your Bookingbug affiliate api key.)
-    iii) style (Possible options are: small, basic, medium, large)
-  	 iv) scheme	(Possible options are: 1, 2, 3, 4)
-  	  v) background_color (6 characters color code)
+    iii) site (BookingBug site that	the	signup link	goes to	(or	pick 'www' to detect by	location))
+     iv) style (Possible options are: small, basic, medium, large)
+  	  v) scheme	(Possible options are: 1, 2, 3, 4)
+  	 vi) background_color (6 characters color code)
 	
 	
 	2) Copy the following line to your route.rb
@@ -53,7 +54,7 @@ Setup
 
   STEP 3
   ------
-    Use <%= link_to_bookingbug :id => 1 %> in your view to render bookingbug signup or signin link.
+    Use <%= link_to_bookingbug :id => id_of_your_user %> in your view to render bookingbug signup or signin link.
     Bookingbug plugin automatically detect user link with BookingBug and renders the appropriate link.
     
     You can optionally pass parameters like:
@@ -89,24 +90,26 @@ Setup
 User Existence Test
 ===================
 
-	<%is_bookingbug_user?(id_of_user)%>
+	<%is_bookingbug_user?(id_of_your_user)%>
 	Return boolean value
 
 
 Render Widget
 =============
 
-	<%= render_bbug_widget(:id => id_of_user)%>
+	<%= render_bbug_widget(:id => id_of_your_user)%>
 	You can optionally pass parameters like:
     1) style (Possible options are: small, basic, medium, large)
   	2) scheme (Possible options are: 1, 2, 3, 4)
   	3) background_color (6 characters color code)
-
+  	
+  	An example with complete paramters might looks like that:
+	<%= render_bbug_widget(:id => 1, :style => "small", :scheme => 1, :background_color => "FFFFFF")%>
 
 Cancel Link
 ===========
 
-	You have to call bookingbug_cancel_callback(:id => id_of_user)
+	You have to call bookingbug_cancel_callback(:id => id_of_your_user)
 
 
 	Any feedback/comment/issue is welcome!

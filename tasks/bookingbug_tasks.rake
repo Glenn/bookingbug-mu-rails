@@ -3,10 +3,10 @@ namespace :bookingbug do
   desc 'Setup BookingBug in your rails application'
   task :setup do
     puts 'Setup BookingBug in your rails application'
-    Rake::Task['bookingbug:bbug_migration'].invoke
-    Rake::Task['bookingbug:copy_partials'].invoke
     Rake::Task['bookingbug:copy_bookingbug_config_file'].invoke
     Rake::Task['bookingbug:copy_resize_file'].invoke
+    Rake::Task['bookingbug:copy_partials'].invoke
+    Rake::Task['bookingbug:bbug_migration'].invoke
   end
   
   desc 'Generate a migration for the Bookingbug table.'

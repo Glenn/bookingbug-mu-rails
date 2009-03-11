@@ -1,6 +1,7 @@
 :bookingbug:
   :bookingbug_affid: 12345
   :bookingbug_apikey: 12345
+  :site: www
   :style: basic
   :scheme: 1
   :background_color: FFFFFF
