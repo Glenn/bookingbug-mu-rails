@@ -51,7 +51,7 @@ module Bookingbug
         if res.class != Net::HTTPSuccess && res.class != Net::HTTPOK
           return "Failed to communicate with BookingBug - Please try again later"
         else
-          res.body[/"status":( )*[0-9]/].split(":").last.to_i == 1 ? (return "Success") : (return "Failed to cancel link - Either no such link exist or this link has already been cancelled.")
+          res.body[/"status":( )*[0-9]/].split(":").last.to_i == 1 ? (bbug_user.destroy; return "Success") : (return "Failed to cancel link - Either no such link exist or this link has already been cancelled.")
         end
       rescue
         return "Failed to communicate with BookingBug - Please try again later"
