@@ -16,7 +16,7 @@ module BbugWidget
       if BbugWidget::Base.validate_affiliate
         widget = BbugWidget::Widget.new(values)
         script = "<script type=\"text/javascript\" src=\"http://#{BBUG_URL}/widget/affiliate"
-        script += widget.get_params_string(:bb_id => widget.affiliate_user_id, :bgcol => widget.background_color, :scheme => widget.scheme, :style => widget.style, :dynamic => 1, :resize => Bookingbug::bbug_host + "/resize.html", :affiliate_id => widget.affiliate_id)
+        script += widget.get_params_string(:bb_id => widget.affiliate_user_id, :bgcol => widget.background_color, :scheme => widget.scheme, :style => widget.style, :dynamic => 1, :resize => 1, :affiliate_id => widget.affiliate_id)
         script += "\">"
         script += "</script>"
         return script
